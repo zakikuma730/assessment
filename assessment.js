@@ -12,26 +12,49 @@ assessmentButton.onclick = () => {
     console.log(userName)
     //診断結果表示エリアの作成
     resultDivided.innerText = '';
-    const header = document.createElement('h3');
-    header.innerText = '診断結果';
-    resultDivided.appendChild(header);//apendChildはもとからあるタグの中に新しくタグ作るって意味
+    /*
+    <div class="card" id="result-area" style="max-width: 700px;">
+      <div class="card-header">診断結果</div>
+      <div class="card-body">
+        <p class="card-text">result</p>
+      </div>
+    </div>
+    というHTMLを作ってカード化する
+    */
+   //headerDivided の作成
+   const headerDivided = document.createElement('div');
+   headerDivided.setAttribute('class', 'card-header');
+   headerDivided.innerText = '診断結果';
 
-    const paragraph = document.createElement('p');//createElementはタグ作れる
-    const result = assessment(userName);
-    paragraph.innerText = result;//innerTextで中の文いじれる
-    resultDivided.appendChild(paragraph);
+   //bodyDividedの作成
+   const bodyDivided = document.createElement('div');
+   bodyDivided.setAttribute('class', 'card-body');
+
+   const paragraph = document.createElement('p');
+   paragraph.setAttribute('class', 'card-text');
+   const result = assessment(userName);
+   paragraph.innerText = result;
+   bodyDivided.appendChild(paragraph);
+
+   //resutDividedにBootstrapのカードのクラスを適用する
+   resultDivided.setAttribute('class', 'card');
+   resultDivided.setAttribute('style', 'max-width: 700px;');
+
+   //headerDividedとbodyDividedを差し込む
+   resultDivided.appendChild(headerDivided);
+   resultDivided.appendChild(bodyDivided);
 
     //ツイートエリアの作成
     tweetdivided.innerText = '';
-    const anchor = document.createElement('a');
+    const anchor = document.createElement('a');//createElementはタグ作れる
     const hrefValue = 'https://twitter.com/intent/tweet?button_hashtag=' +
     encodeURIComponent('あなたのいいところ') + //URLに入ってる日本語がバグの原因になる可能性があるからエンコードして英数字にする
     '&ref_src=twsrc%5Etfw';
     anchor.setAttribute('href', hrefValue);
     anchor.setAttribute('class', 'twitter-hashtag-button');//クラスを追加したり変更したりする
     anchor.setAttribute('data-text', result);
-    anchor.innerText = 'Tweet #あなたのいいところ';
-    tweetdivided.appendChild(anchor);
+    anchor.innerText = 'Tweet #あなたのいいところ';//innerTextで中の文いじれる
+    tweetdivided.appendChild(anchor);//apendChildはもとからあるタグの中に新しくタグ作るって意味
 
     const script = document.createElement('script');
     script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
